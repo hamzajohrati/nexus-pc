@@ -10,7 +10,8 @@
             <table class="table">
                 @foreach($cart->items() as $row)
                     <tr>
-                        <td>{{ $row['name'] }}</td>
+                        <td style="width: 150px;"><img src="{{ asset('storage/'.($row['img_path'] ?? '')) }}" alt="" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;"></td>
+                        <td style="padding-top: 50px;><span ">{{ $row['name'] }}</span></td>
                         <td class="text-end">{{ $row['qty'] }} × {{ number_format($row['price'],0) }} DH</td>
                         <td class="text-end">
                             <form action="{{ route('cart.remove',$row['rowId']) }}" method="POST">

@@ -27,11 +27,14 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" data-bs-toggle="dropdown">{{ Auth::user()->email }}</a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="{{route('orders.index')}}">My Orders</a></li>
             <li><a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logoutForm').submit();">Logout</a></li>
           </ul>
           <form id="logoutForm" method="POST" action="{{ route('logout') }}">@csrf</form>
         </li>
+            @if(Auth::user()->role === 'admin')
+                  <li class="nav-item"><a class="nav-link text-white" href="{{ route('admin.dashboard.index') }}"><i class="fa-solid fa-gauge"></i> Admin Console</a></li>
+            @endif
         @endguest
       </ul>
     </div>

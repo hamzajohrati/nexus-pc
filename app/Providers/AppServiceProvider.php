@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Config;
 use App\Services\Cart;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $json   = file_get_contents(public_path('icons.json'));
         $icons  = json_decode($json, true);
 
+        Paginator::useBootstrapFive();
         // share with every view (or pass from controller)
         View::share('icons', $icons);
         View::share('config',Config::first()->get());

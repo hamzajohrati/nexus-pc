@@ -33,7 +33,8 @@
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <button type="submit" class="btn btn-danger btn-lg">Log In</button>
-          <a href="#" class="small text-decoration-none text-danger">Forgot Password?</a>
+          <a href="{{route('register')}}" class="btn btn-outline-secondary btn-lg">Or Register</a>
+{{--          <a href="#" class="small text-decoration-none text-danger">Forgot Password?</a>--}}
         </div>
       </form>
     </div>

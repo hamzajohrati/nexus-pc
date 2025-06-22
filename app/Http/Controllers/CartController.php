@@ -15,4 +15,3 @@ class CartController extends Controller
     public function update(Request $r,$row){ $this->cart->update($row,$r->qty); return back();}
     public function remove($row=null){ $row ? $this->cart->remove($row) : $this->cart->clear(); return back();}
 }
-

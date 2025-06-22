@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="2" width="396" height="296" rx="12" ry="12" fill="#f8f9fa" stroke="#ced4da" stroke-width="4" stroke-dasharray="8 6"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#6c757d" font-size="36" text-anchor="middle">
+    <text x="200" y="160">Preview</text>
+  </g>
+</svg>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Requests;
+use App\Models\Requests as Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,8 +15,17 @@ class RequestController extends Controller
 
     public function index()
     {
-        $items = Requests::latest()->paginate(20);
-        return view('admin.requests.index', compact('items'));
+        $orders = Order::with([
+            'user:id,email',
+            'details.component:id,name',
+            'details.pc:id,name',
+        ])
+            ->latest()
+            ->paginate(15);
+
+        $statuses = ['pending','in_progress','ready','shipped','delivered'];
+
+        return view('admin.requests.index', compact('orders','statuses'));
     }
 
     public function create()
@@ -27,25 +36,28 @@ class RequestController extends Controller
     public function store(Requests $request)
     {
         $data = $request->validate([ "status"=>"required" ]);
-        Requests::create($data);
+        Order::create($data);
         return redirect()->route('admin.requests.index')->with('success','Created');
     }
 
-    public function edit(Requests $item)
+    /* Update status only */
+    public function update(Request $r, Order $request)
     {
-        return view('admin.requests.form', compact('item'));
+        $r->validate([
+            'status' => ['required','in:pending,in_progress,ready,shipped,delivered'],
+        ]);
+
+        $request->update(['status' => $r->status]);
+
+        return back()->with('success',"Request #{$request->id} updated!");
     }
 
-    public function update(Requests $request, Requests $item)
+    /* Delete request + its details */
+    public function destroy(Order $request)
     {
-        $data = $request->validate([ "status"=>"required" ]);
-        $item->update($data);
-        return redirect()->route('admin.requests.index')->with('success','Updated');
-    }
+        $request->details()->delete();
+        $request->delete();
 
-    public function destroy(Requests $item)
-    {
-        $item->delete();
-        return back()->with('success','Deleted');
+        return back()->with('success','Request deleted');
     }
 }

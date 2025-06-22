@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,10 +11,11 @@ Route::get('/login', 'AuthController@showLoginForm')->name('login');
 Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout')->name('logout');
 Route::get('/register', 'AuthController@showRegisterForm')->name('register');
-Route::get('/components', function () { return view('pages.components'); })->name('components');
+Route::post('/register', 'AuthController@register');
+Route::get('/components','ComponentsController@index' )->name('components');
 Route::get('/prebuilt-pcs','PreBuiltPCController@index')->name('prebuilt');
-Route::get('/pc-builder', function () { return view('pages.builder'); })->name('builder');
-
+Route::get('/pc-builder', 'PCBuilderController@index')->name('builder');
+Route::post('/pc-builder/add-cart', 'PCBuilderController@add')->name('builder.add');
 
 
 
@@ -26,7 +28,12 @@ Route::controller('CartController')->group(function () {
     Route::get('cart',                 'index'   )->name('cart');
 });
 
-Route::post('checkout', [CheckoutController::class,'store'])->middleware('auth')->name('checkout');
+//Authed Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/orders', 'OrderController@index')->name('orders.index');
+    Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
+    Route::post('checkout', 'CheckoutController@store')->name('checkout');
+});
 
 
 

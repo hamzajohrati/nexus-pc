@@ -16,15 +16,16 @@ class AuthController extends Controller
     public function register(Request $r)
     {
         $r->validate([
-            'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
+            'phone_number' => 'required'
         ]);
 
         $user = User::create([
-            'name'     => $r->name,
             'email'    => $r->email,
             'password' => Hash::make($r->password),
+            'phone_number'=>$r->phone_number,
+            'role'=>'user'
         ]);
 
         Auth::login($user);               // auto-login
